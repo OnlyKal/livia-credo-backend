@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Key Store</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="script.js"></script>
+</head>
+
+<body>
+    <h2>Key Store</h2>
+
+    <div id="response"></div>
+
+    <button id="getAllKeys">Get All Keys</button><br><br>
+
+    <label for="searchKey">Search Key:</label>
+    <input type="text" id="searchKey" name="searchKey">
+    <button id="searchByKey">Search</button><br><br>
+
+    <label for="updateKey">Key to Update:</label>
+    <input type="text" id="updateKey" name="updateKey">
+    <label for="newState">New State:</label>
+    <input type="text" id="newState" name="newState">
+    <button id="updateState">Update State</button><br><br>
+
+</body>
+
+</html>
+<script>
+    $(document).ready(function () {
+        // Get all keys
+        $('#getAllKeys').click(function () {
+            $.ajax({
+                type: 'GET',
+                url: 'api.php?action=getAllKeys',
+                success: function (response) {
+                    $('#response').html(response);
+                }
+            });
+        });
+
+        // Search keys by specific allkeys value
+        $('#searchByKey').click(function () {
+            var searchKey = $('#searchKey').val();
+            $.ajax({
+                type: 'GET',
+                url: 'api.php?action=searchByKey',
+                data: { searchKey: searchKey },
+                success: function (response) {
+                    $('#response').html(response);
+                }
+            });
+        });
+
+        // Update state for a specific allkeys value
+        $('#updateState').click(function () {
+            var updateKey = $('#updateKey').val();
+            var newState = $('#newState').val();
+            $.ajax({
+                type: 'POST',
+                url: 'api.php?action=updateState',
+                data: { updateKey, newState },
+                success: function (response) {
+                    $('#response').html(response);
+                }
+            });
+        });
+    });
+
+</script>
